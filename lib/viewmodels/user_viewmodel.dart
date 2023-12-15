@@ -20,6 +20,7 @@ class UserViewModel extends ChangeNotifier {
     try {
       final response = await http.get(Uri.parse(
           'https://jsonplaceholder.typicode.com/users/${generateRandomNumber()}'));
+
       if (response.statusCode == 200) {
         // Parse the response JSON and update the user data
         final Map<String, dynamic> data = json.decode(response.body);
@@ -28,6 +29,17 @@ class UserViewModel extends ChangeNotifier {
       } else {
         throw Exception('Failed to load user data');
       }
+    } catch (error) {
+      print('Error fetching user data: $error');
+    }
+  }
+
+  Future<void> updateData(User userInfo) async {
+    try {
+      print("userInfo: $userInfo");
+      // final Map<String, dynamic> data = json.decode(userInfo);
+      _user = userInfo;
+      notifyListeners();
     } catch (error) {
       print('Error fetching user data: $error');
     }
